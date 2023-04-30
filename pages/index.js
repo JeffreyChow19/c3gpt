@@ -72,6 +72,7 @@ export default function Home() {
   };
 
   const handlePostChat = async (history_id, message, sender) => {
+    // sender : is either "user" or "bot"
     try {
       const newChat = await postChat(history_id, message, sender);
       console.log("Chat posted successfully:", newChat);
