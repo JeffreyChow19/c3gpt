@@ -4,7 +4,7 @@
 function kmp(text, pattern) {
     let border = computeBorderKmp(pattern);
     let i = 0, j = 0;
-  
+
     while (i < text.length) {
         if (text[i] === pattern[j]) {
             if (j === pattern.length - 1) {
@@ -17,7 +17,7 @@ function kmp(text, pattern) {
         } else {
             i++;
         }
-    }   
+    }
     return (-1); /* If there is no match */
 }
 
@@ -44,4 +44,9 @@ function computeBorderKmp(pattern) {
         }
     }
     return border;
+}
+
+// wrapper for exact match
+function exactMatchKMP(text, pattern) {
+    return (text.length == pattern.length && (text.length == 0 || kmp(text, pattern) == 0));
 }
