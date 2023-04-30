@@ -5,8 +5,8 @@ const connectDB = require("../db/db");
 async function handleCreateQnA(req, res) {
   await connectDB();
 
-  const { question, answer, deletable } = req.body;
-  const qna = new QnA({ question, answer, deletable });
+  const { question, answer } = req.body;
+  const qna = new QnA({ question, answer });
   await qna.save();
 
   try {
@@ -33,12 +33,12 @@ async function handleGetQnAs(req, res) {
 async function handleUpdateQnA(req, res) {
   await connectDB();
 
-  const { id, question, answer, deletable } = req.body;
+  const { id, question, answer } = req.body;
 
   try {
     const updatedQnA = await QnA.findByIdAndUpdate(
       id,
-      { question, answer, deletable },
+      { question, answer },
       { new: true }
     );
     res.send(updatedQnA);

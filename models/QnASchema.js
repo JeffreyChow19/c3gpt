@@ -10,10 +10,6 @@ const QnASchema = new Schema({
     type: String,
     required: true,
   },
-  deletable: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 let QnA;
