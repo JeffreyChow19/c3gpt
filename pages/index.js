@@ -90,9 +90,9 @@ export default function Home() {
         Get Chats
       </button>
       {chatsData &&
-        chatsData.map((chat) => {
+        chatsData.map((chat, i) => {
           return (
-            <h4>
+            <h4 key={i}>
               {chat.sender}: {chat.message}
             </h4>
           );
@@ -100,8 +100,8 @@ export default function Home() {
 
       <button onClick={handleGetHistories}>Get Histories</button>
       {historyData &&
-        historyData.map((item) => {
-          return <h4>{item.created_time}</h4>;
+        historyData.map((item, i) => {
+          return <h4 key={i}>{item.created_time}</h4>;
         })}
     </>
   );
