@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { getQnAs, postQnA, deleteQnA } from "@/services/qna.js";
 import { getHistories, postHistory } from "@/services/history.js";
 import { getChats, postChat } from "@/services/chat";
+import ChatHistoryBar from "@/components/chat-history-bar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -84,6 +85,7 @@ export default function Home() {
 
   return (
     <>
+      {/* <ChatHistoryBar histories = {historyData}/> */}
       <h1 className="text-3xl font-bold">Hello world</h1>
 
       <button onClick={() => handleGetChats("644a953d1a44a215224e7ca3")}>
