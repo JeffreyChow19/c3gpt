@@ -34,7 +34,7 @@ export default function ChatHistoryBar() {
     };
 
     return (
-        <div className="flex flex-col h-screen w-1/5 bg-gray-700">
+        <div className="flex flex-col h-screen w-1/5 bg-gray-800">
             <div className="p-2 flex-grow-0">
                 <button className="w-full bg-gray-700 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded border border-white" onClick={handleNewChatClick}>
                     + New Chat

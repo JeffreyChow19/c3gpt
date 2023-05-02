@@ -4,7 +4,7 @@ import { getQnAs, postQnA, deleteQnA } from "@/services/qna.js";
 import { getHistories, postHistory } from "@/services/history.js";
 import { getChats, postChat } from "@/services/chat";
 import ChatHistoryBar from "@/components/chat-history-bar";
-import { Chat } from "@/components/chat/chat";
+import { Message } from "@/components/chat/message";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -85,15 +85,13 @@ export default function Home() {
   };
 
   return (
-    <>
-      {/* <ChatHistoryBar histories = {historyData}/> */}
-      <h1 className="text-3xl font-bold">Hello world</h1>
-
+    <div class="flex flex-no-wrap">
+      <ChatHistoryBar histories = {historyData}/>
       <button onClick={() => handleGetChats("644a953d1a44a215224e7ca3")}>
         Get Chats
       </button>
-      <Chat chatsData={chatsData} handlePostChat={handlePostChat} history_id={"644a953d1a44a215224e7ca3"}/>
-      {chatsData &&
+      <Message chatsData={chatsData} handlePostChat={handlePostChat} history_id={"644a953d1a44a215224e7ca3"}/>
+      {/* {chatsData &&
         chatsData.map((chat, i) => {
           return (
             <h4 key={i}>
@@ -106,7 +104,7 @@ export default function Home() {
       {historyData &&
         historyData.map((item, i) => {
           return <h4 key={i}>{item.created_time}</h4>;
-        })}
-    </>
+        })} */}
+    </div>
   );
 }
