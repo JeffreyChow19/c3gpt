@@ -4,38 +4,39 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function ChatHistoryBar() {
     // const {histories} = props;
-    const [panelCount, setPanelCount] = useState(0);
+
+    const [panels, setPanels] = useState([]);
 
     const handleNewChatClick = () => {
-        setPanelCount(panelCount + 1);
-    }
+        setPanels([...panels, `Chat Panel ${panels.length + 1}`]);
+    };
+
+    const handleRemovePanel = (index) => {
+        setPanels(panels.filter((_, i) => i !== index));
+    };
 
     const renderPanels = () => {
-        const panels = [];
-        for (let i = 0; i < panelCount; i++) {
-            panels.push(
-                <div key={i} className="relative">
+        return panels.map((panel, i) => (
+            <div key={i} className="relative">
                 <button
-                    className="w-full bg-gray-100 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded mb-2"
+                    className="w-full bg-blue-100 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded mb-2"
                     onClick={() => console.log(`Clicked panel ${i + 1}`)}
                 >
-                    <div className="p-2 flex-grow">{`Chat Panel ${i + 1}`}</div>
+                    <div className="p-2 flex-grow">{panel}</div>
                 </button>
                 <FontAwesomeIcon
                     icon={faTrashAlt}
-                    className="absolute top-5 right-2 cursor-pointer text-gray-500 hover:text-red-500"
-                    onClick={() => setPanelCount(panelCount - 1)}
+                    className="absolute top-5 right-3 cursor-pointer text-gray-500 hover:text-red-500"
+                    onClick={() => handleRemovePanel(i)}
                 />
-                </div>
-            );
-        }
-        return panels;
+            </div>
+        ));
     };
 
     return (
-        <div className="flex flex-col h-screen w-1/5 bg-gray-500">
+        <div className="flex flex-col h-screen w-1/5 bg-gray-700">
             <div className="p-2 flex-grow-0">
-                <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleNewChatClick}>
+                <button className="w-full bg-gray-700 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded border border-white" onClick={handleNewChatClick}>
                     + New Chat
                 </button>
             </div>
@@ -50,15 +51,15 @@ export default function ChatHistoryBar() {
                 {renderPanels()}
             </div>
 
-            <div className="p-4 flex-grow-0 flex flex-col ">
-                <p style={{ fontFamily: 'Georgia' }}>Choose Algorithm: </p>
+            <div className="p-4 flex-grow-0 flex flex-col text-white">
+                <p style={{ fontFamily: 'Arial', fontWeight: 'bold'}}>Choose Algorithm: </p>
                 <label className="inline-flex items-center">
                     <input type="radio" className="form-radio h-30 w-5 text-blue-600" name="algorithm" value="KMP" />
-                    <span className="ml-2 text-black" style={{ fontFamily: 'Georgia' }}>KMP</span>
+                    <span className="ml-2 text-white" style={{ fontFamily: 'Arial' }}>KMP</span>
                 </label>
                 <label className="inline-flex items-center mt-2">
                     <input type="radio" className="form-radio h-30 w-5 text-blue-600" name="algorithm" value="BM" />
-                    <span className="ml-2 text-black" style={{ fontFamily: 'Georgia'}}>BM</span>
+                    <span className="ml-2 text-white" style={{ fontFamily: 'Arial'}}>BM</span>
                 </label>
             </div>
         </div>
