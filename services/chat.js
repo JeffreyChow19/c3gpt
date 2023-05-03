@@ -34,11 +34,9 @@ export const postChat = async (history_id, message, sender) => {
   }
 };
 
-export const deleteChat = async (id) => {
+export const deleteChats = async (history_id) => {
   try {
-    const response = await axios.delete("/api/chat", {
-      data: { id },
-    });
+    const response = await axios.delete(`/api/chat?history_id=${history_id}`);
     const data = response.data;
     return data;
   } catch (error) {
