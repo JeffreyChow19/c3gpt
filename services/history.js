@@ -30,9 +30,7 @@ export const postHistory = async () => {
 
 export const deleteHistory = async (id) => {
   try {
-    const response = await axios.delete("/api/history", {
-      data: { id },
-    });
+    const response = await axios.delete(`/api/history?id=${id}`);
     const data = response.data;
     return data;
   } catch (error) {
