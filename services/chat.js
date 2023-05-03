@@ -33,3 +33,19 @@ export const postChat = async (history_id, message, sender) => {
     }
   }
 };
+
+export const deleteChat = async (id) => {
+  try {
+    const response = await axios.delete("/api/chat", {
+      data: { id },
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      throw new Error("Bad Request: Invalid chat data");
+    } else {
+      throw error;
+    }
+  }
+};
