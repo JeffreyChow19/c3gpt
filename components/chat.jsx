@@ -1,7 +1,13 @@
 import { useState, useRef, useEffect } from "react";
+import { getResponse } from "@/services/qna.js";
 import Image from "next/image";
 
-export const Chats = ({ handlePostChat, chatsData, history_id }) => {
+export const Chats = ({
+  algorithm,
+  handlePostChat,
+  chatsData,
+  currentHistory,
+}) => {
   const scrollDiv = useRef();
 
   // render based on sender
@@ -43,9 +49,19 @@ export const Chats = ({ handlePostChat, chatsData, history_id }) => {
 
   const [currMessage, setCurrMessage] = useState("");
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (currMessage !== "") {
-      handlePostChat(history_id, currMessage, "user");
+      await handlePostChat(currentHistory, currMessage, "user");
+
+      try {
+        const response = await getResponse(currMessage, algorithm);
+
+        // HANDLE RESPONSE
+        await handlePostChat(currentHistory, response, "bot");
+      } catch (error) {
+        console.error("An error occurred while getting response:", error);
+      }
+
       setCurrMessage("");
     }
   };
@@ -54,16 +70,16 @@ export const Chats = ({ handlePostChat, chatsData, history_id }) => {
     if (scrollDiv.current) {
       scrollDiv.current.scrollTop = scrollDiv.current.scrollHeight;
     }
-  }, [chatsData])
+  }, [chatsData]);
 
-  return (
+  return currentHistory ? (
     <div class="bg-gray-700 flex-1 justify-between flex flex-col h-screen">
       <div
         id="messages"
         class="flex flex-col space-y-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrolling-touch"
         ref={scrollDiv}
       >
-        { chatsData &&
+        {chatsData &&
           chatsData.map((chat, i) => {
             return (
               <div key={i} class={"px-5 py-3 " + getColor(chat.sender)}>
@@ -80,14 +96,16 @@ export const Chats = ({ handlePostChat, chatsData, history_id }) => {
                       </span>
                     </div>
                     <div>
-                      <span class="text-gray-100 text-base">{chat.message}</span>
+                      <span class="text-gray-100 text-base">
+                        {chat.message}
+                      </span>
                     </div>
                   </div>
                   {getIcon(chat.sender)}
                 </div>
               </div>
-            )
-          }) }
+            );
+          })}
       </div>
       <div class="px-4 py-4 mb-0">
         <div class="relative flex">
@@ -115,6 +133,13 @@ export const Chats = ({ handlePostChat, chatsData, history_id }) => {
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  ) : (
+    <div class="bg-gray-700 flex-1 flex h-screen justify-center items-center">
+      <div class="inline-block text-center text-white">
+        <h1 class="font-black text-3xl p-2">Welcome to C3GPT, have fun!</h1>
+        <h2 class="font-semibold text-xl">Create New Chat to start</h2>
       </div>
     </div>
   );
