@@ -55,7 +55,9 @@ async function handleDeleteQnA(id) {
 }
 
 async function handleGetResponse(req, res) {
-  const { question, method } = req.query;
+  const { question, algorithm } = req.query;
+  const responseMessage = `You've asked ${question} using ${algorithm}`;
+  res.status(200).send(responseMessage);
 
   // try {
   //   const qnasJSON = await handleGetQnAs();
