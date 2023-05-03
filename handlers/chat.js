@@ -42,21 +42,21 @@ async function handleGetChats(req, res) {
 }
 
 // Delete chat by id
-async function handleDeleteChat(req, res) {
+async function handleDeleteChats(req, res) {
   await connectDB();
 
-  const { id } = req.query;
+  const { history_id } = req.query;
 
   try {
-    const deletedChat = await Chat.findByIdAndDelete(id);
-    res.send(deletedChat);
+    const deletedChats = await Chat.deleteMany({ history_id });
+    res.send(deletedChats);
   } catch (error) {
-    res.status(500).send("An error occurred while deleting the Chat document");
+    res.status(500).send("An error occurred while deleting the Chat documents");
   }
 }
 
 module.exports = {
   handleCreateChat,
   handleGetChats,
-  handleDeleteChat,
+  handleDeleteChats,
 };
