@@ -1,31 +1,38 @@
 import { useState } from "react";
+import Image from "next/image";
 
-export const Message = ({ handlePostChat, chatsData, history_id }) => {
-
-
+export const Chats = ({ handlePostChat, chatsData, history_id }) => {
+  // render based on sender
   const getIcon = (sender) => {
     if (sender === "user") {
       return (
-        <img
-          src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+        <Image
+          src="/user_avatar.svg"
+          width={10}
+          height={10}
           class="object-cover h-10 w-10 rounded-full order-1"
         />
       );
     } else {
       return (
-        <img
-          src="https://source.unsplash.com/L2cxSuKWbpo/600x600"
+        <Image
+          src="/bot_avatar.svg"
+          width={10}
+          height={10}
           class="object-cover h-10 w-10 rounded-full order-1"
         />
       );
     }
   };
+
   const getColor = (sender) => {
     return sender === "user" ? "bg-gray-700" : "bg-gray-600";
   };
+
   const getTextColor = (sender) => {
     return sender === "user" ? "text-pink-300" : "text-green-300";
   };
+
   const getName = (sender) => {
     return sender === "user" ? "You" : "C3GPT Bot";
   };
@@ -38,14 +45,12 @@ export const Message = ({ handlePostChat, chatsData, history_id }) => {
       setCurrMessage("");
     }
   };
-  const el = document.getElementById('messages')
-	el.scrollTop = el.scrollHeight
 
   return (
     <div class="bg-gray-700 flex-1 justify-between flex flex-col h-screen">
       <div
         id="messages"
-        class="flex flex-col space-y-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrolling-touch"
+        class="flex flex-col space-y-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrolling-touch"
       >
         {chatsData &&
           chatsData.map((chat, i) => (

@@ -4,7 +4,7 @@ import { getQnAs, postQnA, deleteQnA } from "@/services/qna.js";
 import { getHistories, postHistory } from "@/services/history.js";
 import { getChats, postChat } from "@/services/chat";
 import ChatHistoryBar from "@/components/chat-history-bar";
-import { Message } from "@/components/chat/message";
+import { Chats } from "@/components/chat";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -90,7 +90,7 @@ export default function Home() {
       <button onClick={() => handleGetChats("644a953d1a44a215224e7ca3")}>
         Get Chats
       </button>
-      <Message chatsData={chatsData} handlePostChat={handlePostChat} history_id={"644a953d1a44a215224e7ca3"}/>
+      <Chats chatsData={chatsData} handlePostChat={handlePostChat} history_id={"644a953d1a44a215224e7ca3"}/>
       {/* {chatsData &&
         chatsData.map((chat, i) => {
           return (
