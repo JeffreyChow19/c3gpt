@@ -1,7 +1,7 @@
 const {
   handleCreateChat,
   handleGetChats,
-  handleDeleteChat,
+  handleDeleteChats,
 } = require("../../handlers/chat");
 
 export default async function chatHandler(req, res) {
@@ -10,7 +10,7 @@ export default async function chatHandler(req, res) {
   } else if (req.method === "GET") {
     await handleGetChats(req, res);
   } else if (req.method === "DELETE") {
-    await handleDeleteChat(req, res);
+    await handleDeleteChats(req, res);
   } else {
     res.status(405).send("Method not allowed");
   }
