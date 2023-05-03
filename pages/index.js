@@ -86,11 +86,15 @@ export default function Home() {
 
   return (
     <div class="flex flex-no-wrap">
-      <ChatHistoryBar histories = {historyData}/>
+      <ChatHistoryBar histories={historyData} />
       <button onClick={() => handleGetChats("644a953d1a44a215224e7ca3")}>
         Get Chats
       </button>
-      <Chats chatsData={chatsData} handlePostChat={handlePostChat} history_id={"644a953d1a44a215224e7ca3"}/>
+      <Chats
+        chatsData={chatsData}
+        handlePostChat={handlePostChat}
+        history_id={"644a953d1a44a215224e7ca3"}
+      />
       {/* {chatsData &&
         chatsData.map((chat, i) => {
           return (
