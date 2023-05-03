@@ -2,23 +2,20 @@ const QnA = require("../models/QnASchema");
 const connectDB = require("../db/db");
 
 // Create QnA
-async function handleCreateQnA(req, res) {
+async function handleCreateQnA(question, answer) {
   await connectDB();
-
-  const { question, answer } = req.body;
   const qna = new QnA({ question, answer });
-  await qna.save();
 
   try {
     await qna.save();
-    res.send(qna);
+    return qna;
   } catch (error) {
-    res.status(500).send("An error occurred while saving the QnA document");
+    throw new Error("An error occurred while saving the QnA document");
   }
 }
 
 // Get QnAs
-async function handleGetQnAs(req, res) {
+async function handleGetQnAs() {
   await connectDB();
 
   try {
@@ -30,28 +27,24 @@ async function handleGetQnAs(req, res) {
 }
 
 // Update QnA
-async function handleUpdateQnA(req, res) {
+async function handleUpdateQnA(_id, question, answer) {
   await connectDB();
 
-  const { id, question, answer } = req.body;
-
   try {
-    const updatedQnA = await QnA.findByIdAndUpdate(
-      id,
+    const qna = await QnA.findByIdAndUpdate(
+      _id,
       { question, answer },
       { new: true }
     );
-    res.send(updatedQnA);
+    res.json(qna);
   } catch (error) {
     res.status(500).send("An error occurred while updating the QnA document");
   }
 }
 
 // Delete QnA by Id
-async function handleDeleteQnA(req, res) {
+async function handleDeleteQnA(id) {
   await connectDB();
-
-  const { id } = req.body;
 
   try {
     const deletedQnA = await QnA.findByIdAndDelete(id);
@@ -61,9 +54,12 @@ async function handleDeleteQnA(req, res) {
   }
 }
 
+async function handleGetResponse(req, res) {
+  const { question, method } = req.query;
+
+  // BRANCHING
+}
+
 module.exports = {
-  handleCreateQnA,
-  handleGetQnAs,
-  handleUpdateQnA,
-  handleDeleteQnA,
+  handleGetResponse,
 };
