@@ -11,6 +11,7 @@ export const Chats = ({ handlePostChat, chatsData, history_id }) => {
           width={10}
           height={10}
           class="object-cover h-10 w-10 rounded-full order-1"
+          alt=""
         />
       );
     } else {
@@ -20,6 +21,7 @@ export const Chats = ({ handlePostChat, chatsData, history_id }) => {
           width={10}
           height={10}
           class="object-cover h-10 w-10 rounded-full order-1"
+          alt=""
         />
       );
     }
@@ -54,7 +56,7 @@ export const Chats = ({ handlePostChat, chatsData, history_id }) => {
       >
         {chatsData &&
           chatsData.map((chat, i) => (
-            <div class={"px-5 py-3 " + getColor(chat.sender)}>
+            <div key={i} class={"px-5 py-3 " + getColor(chat.sender)}>
               <div class="flex items-start">
                 <div class="flex flex-col space-y-1 text-sm max-w-full mx-4 order-2 items-start">
                   <div>
