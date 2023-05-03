@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 export const Chats = ({ handlePostChat, chatsData, history_id }) => {
+  const scrollDiv = useRef();
+
   // render based on sender
   const getIcon = (sender) => {
     if (sender === "user") {
@@ -48,35 +50,44 @@ export const Chats = ({ handlePostChat, chatsData, history_id }) => {
     }
   };
 
+  useEffect(() => {
+    if (scrollDiv.current) {
+      scrollDiv.current.scrollTop = scrollDiv.current.scrollHeight;
+    }
+  }, [chatsData])
+
   return (
     <div class="bg-gray-700 flex-1 justify-between flex flex-col h-screen">
       <div
         id="messages"
         class="flex flex-col space-y-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrolling-touch"
+        ref={scrollDiv}
       >
-        {chatsData &&
-          chatsData.map((chat, i) => (
-            <div key={i} class={"px-5 py-3 " + getColor(chat.sender)}>
-              <div class="flex items-start">
-                <div class="flex flex-col space-y-1 text-sm max-w-full mx-4 order-2 items-start">
-                  <div>
-                    <span
-                      class={
-                        getTextColor(chat.sender) +
-                        " text-gray-100 font-semibold text-base"
-                      }
-                    >
-                      {getName(chat.sender)}
-                    </span>
+        { chatsData &&
+          chatsData.map((chat, i) => {
+            return (
+              <div key={i} class={"px-5 py-3 " + getColor(chat.sender)}>
+                <div class="flex items-start">
+                  <div class="flex flex-col space-y-1 text-sm max-w-full mx-4 order-2 items-start">
+                    <div>
+                      <span
+                        class={
+                          getTextColor(chat.sender) +
+                          " text-gray-100 font-semibold text-base"
+                        }
+                      >
+                        {getName(chat.sender)}
+                      </span>
+                    </div>
+                    <div>
+                      <span class="text-gray-100 text-base">{chat.message}</span>
+                    </div>
                   </div>
-                  <div>
-                    <span class="text-gray-100 text-base">{chat.message}</span>
-                  </div>
+                  {getIcon(chat.sender)}
                 </div>
-                {getIcon(chat.sender)}
               </div>
-            </div>
-          ))}
+            )
+          }) }
       </div>
       <div class="px-4 py-4 mb-0">
         <div class="relative flex">

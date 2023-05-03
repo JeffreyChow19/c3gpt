@@ -19,7 +19,7 @@ export default function ChatHistoryBar() {
         return panels.map((panel, i) => (
             <div key={i} className="relative">
                 <button
-                    className="w-full bg-blue-100 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded mb-2"
+                    className="w-full bg-gray-500 hover:bg-gray-400 hover:text-gray-600 text-gray-100 font-bold py-2 px-4 rounded mb-2"
                     onClick={() => console.log(`Clicked panel ${i + 1}`)}
                 >
                     <div className="p-2 flex-grow">{panel}</div>
@@ -34,7 +34,7 @@ export default function ChatHistoryBar() {
     };
 
     return (
-        <div className="flex flex-col h-screen w-1/5 bg-gray-800">
+        <div className="flex flex-col h-screen w-1/5 bg-gray-800 p-3">
             <div className="p-2 flex-grow-0">
                 <button className="w-full bg-gray-700 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded border border-white" onClick={handleNewChatClick}>
                     + New Chat
