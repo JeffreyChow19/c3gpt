@@ -2,17 +2,14 @@
 const {
   handleCreateHistory,
   handleGetHistories,
-  handleUpdateHistory,
   handleDeleteHistory,
-} = require("../../handlers/history");
+} = require("../../backend/handlers/history");
 
 export default async function historyHandler(req, res) {
   if (req.method === "POST") {
     await handleCreateHistory(req, res);
   } else if (req.method === "GET") {
     await handleGetHistories(req, res);
-  } else if (req.method === "PUT") {
-    await handleUpdateHistory(req, res);
   } else if (req.method === "DELETE") {
     await handleDeleteHistory(req, res);
   } else {
