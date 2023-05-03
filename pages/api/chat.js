@@ -2,7 +2,7 @@ const {
   handleCreateChat,
   handleGetChats,
   handleDeleteChats,
-} = require("../../handlers/chat");
+} = require("../../backend/handlers/chat");
 
 export default async function chatHandler(req, res) {
   if (req.method === "POST") {

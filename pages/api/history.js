@@ -3,7 +3,7 @@ const {
   handleCreateHistory,
   handleGetHistories,
   handleDeleteHistory,
-} = require("../../handlers/history");
+} = require("../../backend/handlers/history");
 
 export default async function historyHandler(req, res) {
   if (req.method === "POST") {

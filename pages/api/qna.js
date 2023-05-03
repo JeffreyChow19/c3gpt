@@ -1,4 +1,4 @@
-import { handleGetResponse } from "../../handlers/qna";
+import { handleGetResponse } from "../../backend/handlers/qna";
 
 export default async function qnaHandler(req, res) {
   if (req.method === "GET") {
