@@ -1,48 +1,17 @@
 import { useState, useEffect } from "react";
 import { Inter } from "next/font/google";
-import { getQnAs, postQnA, deleteQnA } from "@/services/qna.js";
-import { getHistories, postHistory } from "@/services/history.js";
-import { getChats, postChat } from "@/services/chat";
+import {
+  getHistories,
+  postHistory,
+  deleteHistory,
+} from "@/services/history.js";
+import { getChats, postChat, deleteChats } from "@/services/chat";
 import ChatHistoryBar from "@/components/chat-history-bar";
 import { Chats } from "@/components/chat";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [qnaData, setQnaData] = useState(null);
-  const [historyData, setHistoryData] = useState(null);
-  const [chatsData, setChatsData] = useState(null);
-
-  const handleGetQnAs = async () => {
-    try {
-      const result = await getQnAs();
-      console.log("QnAs fetched successfully:", result);
-      setQnaData(result);
-    } catch (error) {
-      console.error("An error occurred while fetching the QnAs:", error);
-    }
-  };
-
-  const handlePostQnA = async (question, answer) => {
-    try {
-      const newQnA = await postQnA(question, answer);
-      console.log("QnA posted successfully:", newQnA);
-      setQnaData((prevData) => [...prevData, newQnA]);
-    } catch (error) {
-      console.error("An error occurred while posting the QnA:", error);
-    }
-  };
-
-  const handleDeleteQnA = async (id) => {
-    try {
-      const deletedQnA = await deleteQnA(id);
-      console.log("QnA deleted successfully:", deletedQnA);
-      setQnaData((prevData) => prevData.filter((qnA) => qnA._id !== id));
-    } catch (error) {
-      console.error("An error occurred while deleting the QnA:", error);
-    }
-  };
-
   const handleGetHistories = async () => {
     try {
       const histories = await getHistories();
@@ -53,13 +22,41 @@ export default function Home() {
     }
   };
 
-  const handlePostHistory = async (historyData) => {
+  const [currentHistory, setCurrentHistory] = useState(null);
+  const [historyData, setHistoryData] = useState(handleGetHistories);
+  const [chatsData, setChatsData] = useState(null);
+  const [algorithm, setAlgorithm] = useState("KMP");
+
+  const handlePostHistory = async () => {
     try {
-      const newHistory = await postHistory(historyData);
+      const newHistory = await postHistory();
+      setCurrentHistory(newHistory._id);
+      console.log(currentHistory);
       console.log("History posted successfully:", newHistory);
-      setHistoryData((prevData) => [...prevData, newHistory]);
+      setHistoryData((prevData) => {
+        const newData = [...prevData, newHistory];
+        // Sort data based on created_time, descending
+        newData.sort(
+          (a, b) => new Date(b.created_time) - new Date(a.created_time)
+        );
+        return newData;
+      });
+      return newHistory._id;
     } catch (error) {
       console.error("An error occurred while posting the history:", error);
+    }
+  };
+
+  const handleDeleteHistory = async (id) => {
+    try {
+      const deletedHistory = await deleteHistory(id);
+      console.log("History deleted successfully:", deletedHistory);
+      setHistoryData((prevData) =>
+        prevData.filter((history) => history._id !== id)
+      );
+      console.log(historyData);
+    } catch (error) {
+      console.error("An error occurred while deleting the history:", error);
     }
   };
 
@@ -74,8 +71,9 @@ export default function Home() {
   };
 
   const handlePostChat = async (history_id, message, sender) => {
-    // sender : is either "user" or "bot"
     try {
+      // sender : is either "user" or "bot"
+      console.log(history_id);
       const newChat = await postChat(history_id, message, sender);
       console.log("Chat posted successfully:", newChat);
       setChatsData((prevData) => [...prevData, newChat]);
@@ -84,31 +82,57 @@ export default function Home() {
     }
   };
 
+  const handleDeleteChats = async (history_id) => {
+    try {
+      const deletedChats = await deleteChats(history_id);
+      console.log("Chats deleted successfully:", deletedChats);
+      setChatsData(
+        (prevData) =>
+          prevData && prevData.filter((chat) => chat.history_id !== history_id)
+      );
+    } catch (error) {
+      console.error("An error occurred while deleting the chats:", error);
+    }
+  };
+
+  // CHAT HISTORY BAR HANDLER
+  const handleNewHistory = async () => {
+    const newCurrentHistory = await handlePostHistory();
+    await handleGetChats(newCurrentHistory);
+  };
+
+  const handleSwitchHistory = async (history_id) => {
+    setCurrentHistory(history_id);
+    await handleGetChats(history_id);
+  };
+
+  const handleRemoveHistory = async (history_id) => {
+    setCurrentHistory(null);
+    await handleDeleteHistory(history_id);
+    await handleDeleteChats(history_id);
+  };
+
+  const handleAlgorithmChange = async (event) => {
+    const selectedAlgorithm = event.target.value;
+    setAlgorithm(selectedAlgorithm);
+  };
+
   return (
     <div class="flex flex-no-wrap">
-      <ChatHistoryBar histories={historyData} />
-      <button onClick={() => handleGetChats("644a953d1a44a215224e7ca3")}>
-        Get Chats
-      </button>
+      <ChatHistoryBar
+        currentHistory={currentHistory}
+        historyData={historyData}
+        handleNewHistory={handleNewHistory}
+        handleSwitchHistory={handleSwitchHistory}
+        handleRemoveHistory={handleRemoveHistory}
+        handleAlgorithmChange={handleAlgorithmChange}
+      />
       <Chats
+        algorithm={algorithm}
         chatsData={chatsData}
         handlePostChat={handlePostChat}
-        history_id={"644a953d1a44a215224e7ca3"}
+        currentHistory={currentHistory}
       />
-      {/* {chatsData &&
-        chatsData.map((chat, i) => {
-          return (
-            <h4 key={i}>
-              {chat.sender}: {chat.message}
-            </h4>
-          );
-        })}
-
-      <button onClick={handleGetHistories}>Get Histories</button>
-      {historyData &&
-        historyData.map((item, i) => {
-          return <h4 key={i}>{item.created_time}</h4>;
-        })} */}
     </div>
   );
 }
