@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getResponse = async (question, method) => {
+export const getResponse = async (question, algorithm) => {
   try {
     const response = await axios.get("/api/qna", {
-      params: { question, method },
+      params: { question, algorithm },
     });
     return response.data;
   } catch (error) {
