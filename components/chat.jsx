@@ -51,18 +51,18 @@ export const Chats = ({
 
   const sendMessage = async () => {
     if (currMessage !== "") {
-      await handlePostChat(currentHistory, currMessage, "user");
+      let temp = currMessage;
+      setCurrMessage("");
+      await handlePostChat(currentHistory, temp, "user");
 
       try {
-        const response = await getResponse(currMessage, algorithm);
+        const response = await getResponse(temp, algorithm);
 
         // HANDLE RESPONSE
         await handlePostChat(currentHistory, response, "bot");
       } catch (error) {
         console.error("An error occurred while getting response:", error);
       }
-
-      setCurrMessage("");
     }
   };
 
@@ -71,6 +71,21 @@ export const Chats = ({
       scrollDiv.current.scrollTop = scrollDiv.current.scrollHeight;
     }
   }, [chatsData]);
+
+  try {
+    var input = document.getElementById("messageField");
+
+    if (input) {
+      input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+          document.getElementById("sendButton").click();
+        }
+      });
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
 
   return currentHistory ? (
     <div class="bg-gray-700 flex-1 justify-between flex flex-col h-screen">
@@ -110,6 +125,7 @@ export const Chats = ({
       <div class="px-4 py-4 mb-0">
         <div class="relative flex">
           <input
+            id="messageField"
             type="text"
             placeholder="Send a message..."
             class="w-full focus:outline-none focus:placeholder-gray-400 text-white placeholder-gray-400 pl-4 pr-14 bg-gray-500 rounded-md py-3"
@@ -118,6 +134,7 @@ export const Chats = ({
           />
           <div class="absolute right-3 items-center inset-y-0 hidden sm:flex">
             <button
+              id="sendButton"
               type="button"
               class="inline-flex items-center justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-400 focus:outline-none"
               onClick={sendMessage}
@@ -132,6 +149,8 @@ export const Chats = ({
               </svg>
             </button>
           </div>
+
+
         </div>
       </div>
     </div>
@@ -139,7 +158,7 @@ export const Chats = ({
     <div class="bg-gray-700 flex-1 flex h-screen justify-center items-center">
       <div class="inline-block text-center text-white">
         <h1 class="font-black text-3xl p-2">Welcome to C3GPT, have fun!</h1>
-        <h2 class="font-semibold text-xl">Create New Chat to start</h2>
+        <h2 class="font-semibold text-xl">Create New Chat to Start</h2>
       </div>
     </div>
   );
