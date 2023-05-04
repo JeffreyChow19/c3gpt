@@ -5,7 +5,7 @@
  * @returns   (boolean)     : true if the expression is valid, false otherwise
  */
 function isExpValid(exp) {
-    return /^[\d+\-*/^()?\s]+(\?)?$/.test(exp);
+    return /^[(\d.)\d+\-*/^()?\s]+(\?)?$/.test(exp);
 }
 
 /**
@@ -35,7 +35,7 @@ function calculate(num1, op, num2) {
 /**
  * Evaluate arithmetic expression in infix notation
  *
- * @warning   exp should be valid (zero division is handled in this function)
+ *
  * @warning   throwing error if zero division exists in expression
  * @param {*} exp (string) : expression to evaluate
  * @returns   (number)     : calculated expression
@@ -65,13 +65,11 @@ function evalExp(exp) {
             } else {
                 throw new Error("Invalid expression");
             }
-        } 
+        }
     }
 
-    console.log(expArr);
-
     expArr = expArr.filter(el => el !== '$');
-    console.log(expArr);
+
     let opPrec = {
         '(' : -1,
         '+' : 1,
@@ -95,7 +93,9 @@ function evalExp(exp) {
                     opStack.push(element);
                 } else {
                     while (opStack.length !== 0 && opPrec[element] <= opPrec[opStack[opStack.length - 1]]) {
+                        if (numStack.length === 0) throw new Error("Invalid expression");
                         let num1 = numStack.pop();
+                        if (numStack.length === 0) throw new Error("Invalid expression");
                         let num2 = numStack.pop();
                         let op = opStack.pop();
 
@@ -116,8 +116,9 @@ function evalExp(exp) {
             if (opStack.length === 0) throw new Error("Invalid expression");
             while (opStack[opStack.length - 1] !== '('){
                 if (opStack.length === 0) throw new Error("Invalid expression");
-
+                if (numStack.length === 0) throw new Error("Invalid expression");
                 let num1 = numStack.pop();
+                if (numStack.length === 0) throw new Error("Invalid expression");
                 let num2 = numStack.pop();
                 let op = opStack.pop();
 
@@ -125,7 +126,7 @@ function evalExp(exp) {
 
                 numStack.push(calculate(num2, op, num1));
             }
-            
+
             opStack.pop();
             return;
         }
@@ -136,6 +137,7 @@ function evalExp(exp) {
     while (opStack.length !== 0) {
         if (numStack.length === 0) throw new Error("Invalid expression");
         let num1 = numStack.pop();
+        if (numStack.length === 0) throw new Error("Invalid expression");
         let num2 = numStack.pop();
         let op = opStack.pop();
 
@@ -145,7 +147,7 @@ function evalExp(exp) {
 
         numStack.push(calculate(num2, op, num1));
     }
-
+    if (numStack.contains(NaN)) throw new Error("Invalid expression");
     if (numStack.length !== 1) throw new Error("Invalid expression");
     return numStack[0];
 }

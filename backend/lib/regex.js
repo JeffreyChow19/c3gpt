@@ -6,10 +6,11 @@ import { search3Nearest } from "./search.js";
 
 /* Calculator */
 function isCalculatorQuery(input) {
-    const regex = /[\d+\-*/()]+/;
-    const operator = /[+\-*/]/;
-    const consecutiveOps = /[+\-*/]{2,}/;
+    const regex = /[(\d.)\d+\-*/()\^ ]+/;
+    const operator = /[+\-*/\^]/;
+    const consecutiveOps = /[+\-*/\^]{2,}/;
     const match = input.match(regex);
+    console.log(match)
     if (match && !operator.test(match[0][match[0].length - 1]) && !consecutiveOps.test(match[0]) && match[0].length != 1) {
         let parenthesisStack = [];
         for (let i = 0; i < match[0].length; i++) {
