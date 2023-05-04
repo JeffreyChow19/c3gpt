@@ -28,6 +28,9 @@ function lastOcc(pattern) {
  */
 
 function bm(text, pattern) {
+    text = text.toLowerCase();
+    pattern = pattern.toLowerCase();
+
     let textLen = text.length;
     let patternLen = pattern.length;
 

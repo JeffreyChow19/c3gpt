@@ -57,19 +57,14 @@ async function handleDeleteQnA(id) {
 
 async function handleGetResponse(req, res) {
   const { question, algorithm } = req.query;
-  // const responseMessage = `You've asked ${question} using ${algorithm}`;
-  // res.status(200).send(responseMessage);
 
   try {
     const qnasJSON = await handleGetQnAs();
     const qnas = JSON.parse(qnasJSON);
     console.log(qnas);
-    let str = evalQuestion(question, qnas, handleDeleteQnA, handleCreateQnA, handleUpdateQnA, algorithm === "KMP");
-    const responseMessage = `You've asked ${question} using ${algorithm}, the answer is ${str}`;
-    console.log(`tes: ${str}`);
+    const responseMessage = evalQuestion(question, qnas, handleDeleteQnA, handleCreateQnA, handleUpdateQnA, algorithm === "KMP");
     res.status(200).send(responseMessage);
     console.log(qnas);
-    // res.json(qnas);
   } catch (error) {
     console.error(error)
     res.status(500).send(error);

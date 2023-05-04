@@ -111,7 +111,7 @@ export const Chats = ({
                       </span>
                     </div>
                     <div>
-                      <span class="text-gray-100 text-base">
+                      <span class="text-gray-100 text-base whitespace-pre-line">
                         {chat.message}
                       </span>
                     </div>
@@ -149,8 +149,6 @@ export const Chats = ({
               </svg>
             </button>
           </div>
-
-
         </div>
       </div>
     </div>

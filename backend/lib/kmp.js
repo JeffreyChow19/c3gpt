@@ -2,6 +2,9 @@
 
 /* Return the index where the pattern starts, or -1 */
 function kmp(text, pattern) {
+    text = text.toLowerCase();
+    pattern = pattern.toLowerCase();
+
     let border = computeBorderKmp(pattern);
     let i = 0, j = 0;
 

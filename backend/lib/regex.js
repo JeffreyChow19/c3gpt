@@ -54,37 +54,46 @@ function isRemoveQuestionQuery(input) {
 // }
 
 export default function evalQuestion(input, arr, fdel, fadd, fupdate, isKMP) {
-    console.log("woi")
+    // FITUR DATE
     if (isDateQuery(input)) {
         return validateAndEvalDate(isDateQuery(input));
+
+    // FITUR CALCULATOR
     } else if (isCalculatorQuery(input)) {
         return validateAndEvalExp(isCalculatorQuery(input));
+
+    // FITUR TAMBAH PERTANYAAN
     } else if (isAddQuestionQuery(input)) {
-        // TODO: coba cek lagi, ini salah sih, print si question sama answernya coba
         const match = isAddQuestionQuery(input);
-        const question = match[1];
-        const answer = match[2];
+        console.log(match);
+        const question = match.question;
+        const answer = match.answer;
+        console.log(question, answer);
+
         let res = searchExactMatch(question, arr, isKMP);
         if (res) {
-            fupdate(res._id, res.question, res.answer);
-            return "Berhasil mengupdate pertanyaan dan jawaban";
+            fupdate(res._id, res.question, answer);
+            console.log(question, answer);
+            return `Berhasil mengupdate pertanyaan '${question}' dengan jawaban '${answer}'`;
         } else {
-            // TODO: ini aku dummy, ganti sama question & answer
-            fadd("ayam", "ayam lah");
-            return "Berhasil menambah pertanyaan dan jawaban";
+            fadd(question, answer);
+            console.log(question, answer);
+            return `Berhasil menambah pertanyaan '${question}' dengan jawaban '${answer}'`;
         }
+
+    // FITUR HAPUS PERTANYAAN
     } else if (isRemoveQuestionQuery(input)) {
-        // TODO: ini juga masih salah parsingnya
         const match = isRemoveQuestionQuery(input); /* The Question */
         console.log(`INIIII: ${match}`); // testing
-        // TODO: ini aku dummy, ganti sama matchnya
-        let res = searchExactMatch("ayam", arr, isKMP);
+        let res = searchExactMatch(match, arr, isKMP);
         if (res) {
             fdel(res._id);
-            return "Berhasil menghapus pertanyaan";
+            return `Berhasil menghapus pertanyaan '${res.question}'`;
         } else {
-            return "Pertanyaan tidak ditemukan";
+            return `Pertanyaan '${match}' ditemukan`;
         }
+
+    // FITUR CARI KE DATABASE
     } else {
         let t1 = searchExactMatch(input, arr, isKMP);
         console.log(t1);
@@ -101,16 +110,14 @@ export default function evalQuestion(input, arr, fdel, fadd, fupdate, isKMP) {
         let t3 = search3Nearest(input, arr);
         console.log(t1);
         if (t3) {
-            let res = `Apakah maksud Anda salah satu dari pertanyaan:   `;
+            let res = `Apakah maksud Anda salah satu dari pertanyaan:`;
             for (let i = 0; i < t3.length; i++) {
-                res += `${i + 1}. ${t3[i].question}   `;
+                res += `\n${i + 1}. ${t3[i].question}`;
             }
             return res;
         }
 
+        // TIDAK ADA FITUR YANG SESUAI
         return "Tidak ada pertanyaan yang sesuai"
     }
 }
-
-// let tesstr = "Hapus pertanyaan x"
-// console.log(evalQuestion(tesstr));

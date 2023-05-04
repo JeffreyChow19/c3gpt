@@ -8,6 +8,8 @@
 function levenshteinDist(str1, str2) {
    let len1 = str1.length
    let len2 = str2.length
+   str1 = str1.toLowerCase();
+   str2 = str2.toLowerCase();
 
    // create matrix len2+1 x len1+1
    let mat = Array(len2 + 1).fill(null).map(() =>
