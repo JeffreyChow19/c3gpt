@@ -6,7 +6,7 @@ import { search3Nearest } from "./search.js";
 
 /* Calculator */
 function isCalculatorQuery(input) {
-    const regex = /[\d+\-*/()\s]+/;
+    const regex = /[\d+\-*/()]+/;
     const match = input.match(regex);
     console.log(match)
     return match ? match[0] : null;
@@ -23,14 +23,14 @@ function isDateQuery(input) {
 function isAddQuestionQuery(input) {
     const regex = /^Tambahkan pertanyaan (.+) dengan jawaban (.+)$/i;
     const match = input.match(regex);
-    return match ? match[0] : null;
+    return match ? {question: match[1], answer: match[2]} : null;
 }
 
 /* Remove Question */
 function isRemoveQuestionQuery(input) {
     const regex = /^Hapus pertanyaan (.+)$/i;
     const match = input.match(regex);
-    return match ? match[0] : null;
+    return match ? match[1] : null;
 }
 
 // function splitQuestion(question) {
