@@ -8,7 +8,6 @@ import { search3Nearest } from "./search.js";
 function isCalculatorQuery(input) {
     const regex = /[\d+\-*/()]+/;
     const match = input.match(regex);
-    console.log(match)
     return match ? match[0] : null;
 }
 
