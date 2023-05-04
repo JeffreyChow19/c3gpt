@@ -1,6 +1,6 @@
 /**
  * get levenshtein distance between two strings
- * 
+ *
  * @param {*} str1 (string) : first string
  * @param {*} str2 (string) : second string
  * @returns   (int)         : levenshtein distance
@@ -40,11 +40,11 @@ function levenshteinDist(str1, str2) {
 
 /**
  * calculate similarity between two strings using levenshtein distance algorithm
- * 
+ *
  * @param {*} str1 (string) : first string
  * @param {*} str2 (string) : second string
  * @returns   (number)      : similarity percentage
  */
-function similarityPercentage(str1, str2) {
+export default function similarityPercentage(str1, str2) {
    return 1 - levenshteinDist(str1, str2) / Math.max(str1.length, str2.length);
 }

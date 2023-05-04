@@ -47,6 +47,6 @@ function computeBorderKmp(pattern) {
 }
 
 // wrapper for exact match
-function exactMatchKMP(text, pattern) {
+export default function exactMatchKMP(text, pattern) {
     return (text.length == pattern.length && (text.length == 0 || kmp(text, pattern) == 0));
 }

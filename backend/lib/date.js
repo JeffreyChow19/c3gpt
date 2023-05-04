@@ -40,7 +40,7 @@ function getDay(date) {
     y -= (m < 3) ? 1 : 0;
     let dayIdx = (y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) + magicNum[m - 1] + d) % 7
 
-    return days[dayIdx];
+    return `Hari ${days[dayIdx]}`;
 }
 
 /**
@@ -55,11 +55,6 @@ function convertDateSplitter(date, prevSplitter, newSplitter) {
     return date.split(prevSplitter).join(newSplitter);
 }
 
-function validateAndEvalDate(date) {
-    if (!isDateValid(date)) return "Tanggal tidak valid";
-    try {
-        return getDay(date).toString();
-    } catch (e) {
-        return "Tanggal tidak valid";
-    }
+export default function validateAndEvalDate(date) {
+    return (isDateValid(date) ? getDay(date) : "Tanggal tidak valid");
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Inter } from "next/font/google";
 import {
   getHistories,

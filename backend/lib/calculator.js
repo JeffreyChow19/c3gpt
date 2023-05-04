@@ -5,8 +5,7 @@
  * @returns   (boolean)     : true if the expression is valid, false otherwise
  */
 function isExpValid(exp) {
-    // TODO: validate the expression
-    return true;
+    return /^[\d+\-*/^()?\s]+(\?)?$/.test(exp);
 }
 
 /**
@@ -119,10 +118,10 @@ function evalExp(exp) {
     return numStack[0];
 }
 
-function validateAndEvalExp(exp) {
+export default function validateAndEvalExp(exp) {
     if (!isExpValid(exp)) return "Ekspresi matematika tidak valid";
     try {
-        return evalExp(exp).toString();
+        return `Hasilnya adalah ${evalExp(exp).toString()}`;
     } catch (e) {
         return "Ekspresi matematika tidak valid";
     }
