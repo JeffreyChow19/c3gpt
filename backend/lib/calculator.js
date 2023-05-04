@@ -45,12 +45,32 @@ function evalExp(exp) {
     let numStack = [];
     let operators = ['+', '-', '*', '/', '^'];
 
-    if (exp[0] === '-') {
-        numStack.push(0);
-    }
-
     let expArr = exp.replace(/\s/g,'').match(/[^\d()]+|[\d.]+|\(|\)/g);
 
+    // handling negative numbers placed at first / after left parentheses
+    if (expArr[0] === '-') { // - di awal
+        if (expArr.length > 1 && Number(expArr[1]) !== NaN) {
+            expArr[1] = expArr[0] + expArr[1];
+            expArr[0] = '$'; // mark
+        } else {
+            throw new Error("Invalid expression");
+        }
+    }
+
+    for (let i = 1; i < expArr.length - 1; i++) {
+        if (expArr[i] === '-' && expArr[i - 1] === '(') {
+            if (Number(expArr[i + 1]) !== NaN) {
+                expArr[i + 1] = expArr[i] + expArr[i + 1];
+                expArr[i] = '$'; // mark
+            } else {
+                throw new Error("Invalid expression");
+            }
+        } 
+    }
+
+    console.log(expArr);
+
+    expArr = expArr.filter(el => el !== '$');
     console.log(expArr);
     let opPrec = {
         '(' : -1,
@@ -62,7 +82,7 @@ function evalExp(exp) {
     }
 
     expArr.forEach(element => {
-        if (!operators.includes(element) && element !== '(' && element !== ')') {
+        if (!operators.includes(element) && element !== '(' && element !== ')' && Number(element) !== NaN) {
             numStack.push(Number(element));
             return;
         }
@@ -91,8 +111,12 @@ function evalExp(exp) {
 
         if (element === '(') {
             opStack.push(element);
+            return;
         } else if (element === ')') {
+            if (opStack.length === 0) throw new Error("Invalid expression");
             while (opStack[opStack.length - 1] !== '('){
+                if (opStack.length === 0) throw new Error("Invalid expression");
+
                 let num1 = numStack.pop();
                 let num2 = numStack.pop();
                 let op = opStack.pop();
@@ -101,20 +125,28 @@ function evalExp(exp) {
 
                 numStack.push(calculate(num2, op, num1));
             }
+            
             opStack.pop();
+            return;
         }
+
+        throw new Error("Invalid token");
     });
 
     while (opStack.length !== 0) {
+        if (numStack.length === 0) throw new Error("Invalid expression");
         let num1 = numStack.pop();
         let num2 = numStack.pop();
         let op = opStack.pop();
+
+        if (op === '(') throw new Error("Invalid expression");
 
         if (op === '/' && num1 === 0) throw new Error("Zero division");
 
         numStack.push(calculate(num2, op, num1));
     }
 
+    if (numStack.length !== 1) throw new Error("Invalid expression");
     return numStack[0];
 }
 
