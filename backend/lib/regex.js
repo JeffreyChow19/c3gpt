@@ -7,8 +7,24 @@ import { search3Nearest } from "./search.js";
 /* Calculator */
 function isCalculatorQuery(input) {
     const regex = /[\d+\-*/()]+/;
+    const operator = /[+\-*/]/;
+    const consecutiveOps = /[+\-*/]{2,}/;
     const match = input.match(regex);
-    return match ? match[0] : null;
+    if (match && !operator.test(match[0][match[0].length - 1]) && !consecutiveOps.test(match[0]) && match[0].length != 1) {
+        let parenthesisStack = [];
+        for (let i = 0; i < match[0].length; i++) {
+            if (match[0][i] === '(') {
+                parenthesisStack.push('(');
+            } else if (match[0][i] === ')') {
+                if (parenthesisStack.length === 0 || parenthesisStack.pop() !== '(') {
+                    return null;
+                }
+            }
+        }
+        return parenthesisStack.length === 0 ? match[0] : null;
+    } else {
+        return null;
+    }
 }
 
 /* Date */
