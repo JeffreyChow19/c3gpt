@@ -1,4 +1,4 @@
-import evalQuestion from "../lib/regex";
+import splitQuestion from "../lib/regex";
 const QnA = require("../models/QnASchema");
 const connectDB = require("../db/db");
 
@@ -62,7 +62,7 @@ async function handleGetResponse(req, res) {
     const qnasJSON = await handleGetQnAs();
     const qnas = JSON.parse(qnasJSON);
     console.log(qnas);
-    const responseMessage = evalQuestion(question, qnas, handleDeleteQnA, handleCreateQnA, handleUpdateQnA, algorithm === "KMP");
+    const responseMessage = splitQuestion(question, qnas, handleDeleteQnA, handleCreateQnA, handleUpdateQnA, algorithm === "KMP");
     res.status(200).send(responseMessage);
     console.log(qnas);
   } catch (error) {

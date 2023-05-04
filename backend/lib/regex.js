@@ -6,12 +6,15 @@ import { search3Nearest } from "./search.js";
 
 /* Calculator */
 function isCalculatorQuery(input) {
-    const regex = /[(\d.)\d+\-*/()\^ ]+/;
+    input = input.replace(/\s/g, '');
+    const regex = /[(\d.)\d+\-*/()\^]+/;
     const operator = /[+\-*/\^]/;
     const consecutiveOps = /[+\-*/\^]{2,}/;
     const match = input.match(regex);
-    console.log(match)
+
     if (match && !operator.test(match[0][match[0].length - 1]) && !consecutiveOps.test(match[0]) && match[0].length != 1) {
+        if (!match[0].includes('+') && !match[0].includes('-') && !match[0].includes('*') && !match[0].includes('/') && !match[0].includes('^')) return null;
+
         let parenthesisStack = [];
         for (let i = 0; i < match[0].length; i++) {
             if (match[0][i] === '(') {
@@ -49,28 +52,8 @@ function isRemoveQuestionQuery(input) {
     return match ? match[1] : null;
 }
 
-// function splitQuestion(question) {
-//     let questions = question.split('?');
-//     questions = questions.map((q) => q.trim());
+function evalQuestion(input, arr, fdel, fadd, fupdate, isKMP) {
 
-//     let ans = [];
-
-//     question.forEach((q) => {
-//         ans.push(evalQuestion(q));
-//     });
-
-//     if (ans.length == 1) {
-//         return ans[0];
-//     } else {
-//         let res = `Kami mendeteksi {questions.length} pertanyaan:   `;
-//         for (let i = 0; i < questions.length; i++) {
-//             ans
-//         }
-//     }
-
-// }
-
-export default function evalQuestion(input, arr, fdel, fadd, fupdate, isKMP) {
     // FITUR DATE
     if (isDateQuery(input)) {
         return validateAndEvalDate(isDateQuery(input));
@@ -85,51 +68,40 @@ export default function evalQuestion(input, arr, fdel, fadd, fupdate, isKMP) {
         console.log(match);
         const question = match.question;
         const answer = match.answer;
-        console.log(question, answer);
 
         let res = searchExactMatch(question, arr, isKMP);
         if (res) {
             fupdate(res._id, res.question, answer);
-            console.log(question, answer);
             return `Berhasil mengupdate pertanyaan '${question}' dengan jawaban '${answer}'`;
         } else {
             fadd(question, answer);
-            console.log(question, answer);
             return `Berhasil menambah pertanyaan '${question}' dengan jawaban '${answer}'`;
         }
 
     // FITUR HAPUS PERTANYAAN
     } else if (isRemoveQuestionQuery(input)) {
         const match = isRemoveQuestionQuery(input); /* The Question */
-        console.log(`INIIII: ${match}`); // testing
         let res = searchExactMatch(match, arr, isKMP);
         if (res) {
             fdel(res._id);
             return `Berhasil menghapus pertanyaan '${res.question}'`;
         } else {
-            return `Pertanyaan '${match}' ditemukan`;
+            return `Pertanyaan '${match}' tidak ditemukan`;
         }
 
     // FITUR CARI KE DATABASE
     } else {
         let t1 = searchExactMatch(input, arr, isKMP);
-        console.log(t1);
-        if (t1) {
-            return t1.answer;
-        }
+        if (t1) return t1.answer;
 
         let t2 = search90(input, arr);
-        console.log(t1);
-        if (t2) {
-            return t2.answer;
-        }
+        if (t2) return t2.answer;
 
         let t3 = search3Nearest(input, arr);
-        console.log(t1);
         if (t3) {
-            let res = `Apakah maksud Anda salah satu dari pertanyaan:`;
+            let res = `Apakah maksudmu salah satu dari pertanyaan:`;
             for (let i = 0; i < t3.length; i++) {
-                res += `\n${i + 1}. ${t3[i].question}`;
+                res += `\n- ${t3[i].question}`;
             }
             return res;
         }
@@ -137,4 +109,18 @@ export default function evalQuestion(input, arr, fdel, fadd, fupdate, isKMP) {
         // TIDAK ADA FITUR YANG SESUAI
         return "Tidak ada pertanyaan yang sesuai"
     }
+}
+
+export default function splitQuestion(question, arr, fdel, fadd, fupdate, isKMP) {
+    let questions = question.split('?');
+    questions = questions.map((q) => q.trim());
+    questions = questions.filter((q) => q.length > 0);
+
+    let ans = `C3GPT mendeteksi ada ${questions.length} pertanyaan:`
+
+    for (let i = 0; i < questions.length; i++) {
+        ans += `\n${i + 1}. ${evalQuestion(questions[i], arr, fdel, fadd, fupdate, isKMP)}`;
+    }
+
+    return ans;
 }

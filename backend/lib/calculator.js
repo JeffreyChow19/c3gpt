@@ -49,26 +49,8 @@ function evalExp(exp) {
 
     // handling negative numbers placed at first / after left parentheses
     if (expArr[0] === '-') { // - di awal
-        if (expArr.length > 1 && Number(expArr[1]) !== NaN) {
-            expArr[1] = expArr[0] + expArr[1];
-            expArr[0] = '$'; // mark
-        } else {
-            throw new Error("Invalid expression");
-        }
+        numStack.push(0);
     }
-
-    for (let i = 1; i < expArr.length - 1; i++) {
-        if (expArr[i] === '-' && expArr[i - 1] === '(') {
-            if (Number(expArr[i + 1]) !== NaN) {
-                expArr[i + 1] = expArr[i] + expArr[i + 1];
-                expArr[i] = '$'; // mark
-            } else {
-                throw new Error("Invalid expression");
-            }
-        }
-    }
-
-    expArr = expArr.filter(el => el !== '$');
 
     let opPrec = {
         '(' : -1,
@@ -100,7 +82,7 @@ function evalExp(exp) {
                         let op = opStack.pop();
 
                         if (op === '/' && num1 === 0) throw new Error("Zero division");
-
+                        if (op === '^' && num2 < 0 && ((1 / num1) % 2 === 0)) throw new Error("Negative root");
                         numStack.push(calculate(num2, op, num1));
                     }
                     opStack.push(element);
@@ -123,6 +105,7 @@ function evalExp(exp) {
                 let op = opStack.pop();
 
                 if (op === '/' && num1 === 0) throw new Error("Zero division");
+                if (op === '^' && num2 < 0 && ((1 / num1) % 2 === 0)) throw new Error("Negative root");
 
                 numStack.push(calculate(num2, op, num1));
             }
@@ -144,10 +127,11 @@ function evalExp(exp) {
         if (op === '(') throw new Error("Invalid expression");
 
         if (op === '/' && num1 === 0) throw new Error("Zero division");
+        if (op === '^' && num2 < 0 && ((1 / num1) % 2 === 0)) throw new Error("Negative root");
 
         numStack.push(calculate(num2, op, num1));
     }
-    if (numStack.contains(NaN)) throw new Error("Invalid expression");
+
     if (numStack.length !== 1) throw new Error("Invalid expression");
     return numStack[0];
 }
