@@ -42,8 +42,8 @@ npm run dev
 - Calculator Feature
 - Day Name Generator Feature
 - Ask Question Feature
-- Add Question to Database Feature (Use format: "Tambahkan pertanyaan <xxx> dengan jawaban <xxx>)
-- Delete Question from Database Feature (Use format: "Hapus pertanyaan <xxx>)
+- Add Question to Database Feature (Use format: "Tambahkan pertanyaan xxx dengan jawaban xxx)
+- Delete Question from Database Feature (Use format: "Hapus pertanyaan xxx)
 
 ## Programming Languange
 * JavaScript
