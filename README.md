@@ -89,6 +89,9 @@ Tubes3_13521046
 │    ├── bot_avatar.svg
 │    └── user_avatar.svg
 │
+├───screenshot
+│    └── main.png
+│
 ├───services
 │    ├── chat.js
 │    ├── history.js
@@ -99,7 +102,7 @@ Tubes3_13521046
 │    └── globals.css
 │
 ├───doc
-│   └── Tubes_13521046.pdf
+│   └── C3GPT.pdf
 │
 └───README.md
 ```
