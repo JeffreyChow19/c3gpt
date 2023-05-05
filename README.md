@@ -40,7 +40,7 @@ npm run dev
 
 ## Features
 - Calculator Feature
-- Day Name Generator Feature
+- Day Name Generator Feature (Use format: DD/MM/YYYY)
 - Ask Question Feature
 - Add Question to Database Feature (Use format: "Tambahkan pertanyaan xxx dengan jawaban xxx)
 - Delete Question from Database Feature (Use format: "Hapus pertanyaan xxx)
