@@ -31,7 +31,7 @@ export default function ChatHistoryBar({
           + New Chat
         </button>
       </div>
-      <div className="p-2 flex-grow max-h-screen overflow-y-auto">
+      <div className="p-2 flex-grow max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrolling-touch">
         {historyData &&
           Array.isArray(historyData) &&
           historyData.map((history, i) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Inter } from "next/font/google";
 import {
   getHistories,
@@ -8,8 +8,6 @@ import {
 import { getChats, postChat, deleteChats } from "@/services/chat";
 import ChatHistoryBar from "@/components/chat-history-bar";
 import { Chats } from "@/components/chat";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const handleGetHistories = async () => {

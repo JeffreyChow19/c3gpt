@@ -2,6 +2,9 @@
 
 /* Return the index where the pattern starts, or -1 */
 function kmp(text, pattern) {
+    text = text.toLowerCase();
+    pattern = pattern.toLowerCase();
+
     let border = computeBorderKmp(pattern);
     let i = 0, j = 0;
 
@@ -47,6 +50,6 @@ function computeBorderKmp(pattern) {
 }
 
 // wrapper for exact match
-function exactMatchKMP(text, pattern) {
+export default function exactMatchKMP(text, pattern) {
     return (text.length == pattern.length && (text.length == 0 || kmp(text, pattern) == 0));
 }

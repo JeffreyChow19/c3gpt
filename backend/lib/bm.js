@@ -28,6 +28,9 @@ function lastOcc(pattern) {
  */
 
 function bm(text, pattern) {
+    text = text.toLowerCase();
+    pattern = pattern.toLowerCase();
+
     let textLen = text.length;
     let patternLen = pattern.length;
 
@@ -64,6 +67,6 @@ function bm(text, pattern) {
  * @param {*} str2 (string)
  * @returns   (boolean)     : true if match, false otherwise
  */
-function exactMatchBM(str1, str2) {
+export default function exactMatchBM(str1, str2) {
     return (str1.length == str2.length && (str1.length == 0 || bm(str1, str2) == 0));
 }
