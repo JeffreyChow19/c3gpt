@@ -17,7 +17,7 @@ Tugas Besar III IF2211 Strategi Algoritma
 Web application mirip ChatGPT sederhana yang dapat menampilkan jawaban sesuai pertanyaan user jika pertanyaan tersebut telah ada di database. Web application ini juga menyediakan fitur untuk menambahkan pertanyaan ke database dan menghapus pertanyaan dari database.
 
 ## Tampilan Program
-TODO
+> ![Main View](./screenshot/main.png)
 
 ## Prerequisites
 
