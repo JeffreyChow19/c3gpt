@@ -4,14 +4,16 @@ Tugas Besar III IF2211 Strategi Algoritma
 <br />
 
 ## Table of Contents
-* [General Info](#general-information)
-* [Tampilan Program](#tampilan-program)
-* [Prerequisites](#prerequisites)
-* [How To Run](#how-to-run)
-* [Features](#features)
-* [Programming Language](#programming-language)
-* [Project Structure](#project-structure)
-* [Credits](#credits)
+- [C3GPT - Lite version of ChatGPT](#c3gpt---lite-version-of-chatgpt)
+  - [Table of Contents](#table-of-contents)
+  - [General Information](#general-information)
+  - [Tampilan Program](#tampilan-program)
+  - [Prerequisites](#prerequisites)
+  - [How to Run](#how-to-run)
+  - [Features](#features)
+  - [Programming Languange](#programming-languange)
+  - [Project Structure](#project-structure)
+  - [Credits](#credits)
 
 ## General Information
 Web application mirip ChatGPT sederhana yang dapat menampilkan jawaban sesuai pertanyaan user jika pertanyaan tersebut telah ada di database. Web application ini juga menyediakan fitur untuk menambahkan pertanyaan ke database dan menghapus pertanyaan dari database.
@@ -108,7 +110,12 @@ Tubes3_13521046
 ```
 
 ## Credits
-This project is implemented by:
+<h3 align="center">Made with love by...</h3>
+<h1 align="center">C3GPT Team!!</h1>
+
+![FotoKelompok](./screenshot/stima.png)
+
+This project was implemented by:
 1. Jeffrey Chow (13521046)
 2. Bill Clinton (13521064)
 3. Chiquita Ahsanunnisa (13521129)
