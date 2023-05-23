@@ -4,7 +4,7 @@ async function connectDB() {
   try {
     // Connect to MongoDB c3gpt database
     await mongoose.connect(
-      "mongodb+srv://root:root@clustergpt.kg9chjf.mongodb.net/c3gpt?retryWrites=true&w=majority",
+      YOUR_MONGODB_API_KEY,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
